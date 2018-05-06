@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+-->
+<html>
+	<head> 
+		<meta name="Modified" content="1498556226110"> 
+		<meta name="Creation-Timestamp" content="1498543036217"> 
+		<meta name="Modified" content="1498542145643"> 
+		<meta charset="utf-8"> 
+		<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1"> 
+		<meta name="mobile-web-app-capable" content="yes"> 
+		<meta id="theme-color" name="theme-color" content="#ffffff"> 
+		<base target="_blank"> 
+		<title>Camera</title> 
+  
+  		<link rel="stylesheet" href="../jqueryMobile/jquery.mobile-1.4.5.min.css">
+  		<link rel="stylesheet" href="../jqueryMobile/jquery.mobile.theme-1.4.5.min.css">
+  		<link rel="stylesheet" href="../nativeDroid/css/nativedroid2.css">
+  		<script type="text/javascript" src="../jquery/jquery.min.js"></script>
+  		<script type="text/javascript" src="../jqueryMobile/jquery.mobile-1.4.5.min.js"></script>
+  		<script type="text/javascript" src="../nativeDroid/js/nativedroid2.js"></script>
+		<style>
+			html {
+	      		overflow-y: scroll;	/* avoid annoying page width change when moving from the home page */
+			}
+			body {
+				font-family: 'Roboto', sans-serif;
+				font-size: 12px;
+				margin: 0;
+				word-break: break-word;
+			}
+			div#container {
+				margin: 0 auto 0 auto;
+				max-width: 640px;
+				padding: 1em 1.5em 1.3em 1.5em;
+			}
+			a#cameraSaveButton {
+				width: 10% !important;
+				float: right;
+				margin-right: 0;
+				display: none;
+			}
+			a#cameraSourceButton {
+				width: 10% !important;
+				float: right;
+				margin-right: 10px;
+			}
+			span#cameraSaveAuto {
+				float: right;
+				padding-top: 5px;
+				margin-right: 10px;
+				display: none;
+			}
+			div.error {
+				text-align: center;
+				padding-top: 20px;
+				display: none;
+			}
+			div#main {
+				padding-top: 10px;
+			}
+			video {
+				background: #222;
+				width: 100%;
+			}
+		</style> 
+ 	</head> 
+ 	
+	<body> 
+		<div id="container" style="display: none">
+			<div> 
+				<img src="/ServiceManager/images/logo4.png" width="90px">
+				<a  id="cameraSaveButton" title="Take snapshot" href="#" onclick="cameraSave()"
+					class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-camera ui-btn-icon-notext"></a>
+					
+				<a  id="cameraSourceButton" title="Next video source" href="#" onclick="activeDevice = (activeDevice + 1) % devices.length; start()"
+					class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-forward ui-btn-icon-notext"></a>	
+					
+				<span id="cameraSaveAuto">(Scan QR to save)</span>
+			</div>
+			<div id="main">
+				<video id="video" autoplay=""></video> 
+				<canvas id="qr-canvas" width="640" height="480" style="display: none"></canvas> 
+			</div>
+		</div>
+		<div id="nocamera_container" class="error">Camera is available only through HTTPS!</div>
+		<div id="nodevices_container" class="error">No video sources found!</div>
+		<div id="incompatible_container" class="error">Incompatible browser / platform!</div>
+		
+  		<script type="text/javascript" src="qrcode.js"></script> 
+  		<script type="text/javascript" src="adapter.js"></script> 
+  		<script type="text/javascript" src="../auraplayer/storage.js"></script>
+  		<script type="text/javascript" src="../auraplayer/utils.js"></script>
+  		
+  		<script type="text/javascript">
+  			var useSessionStorage = true;
+  			var video = document.getElementById('video');
+	    	var canvas = document.getElementById('qr-canvas');
+	    	var cameraReturnElement = getSessionFieldValue('APCAMERA_RETURN_ELEMENT');
+	    	var devices = [];
+	    	var activeDevice = 0;
+  			initCamera();
+  		
+			function gotDevices(deviceInfos) {
+				if (deviceInfos.length === 0) {
+					document.getElementById('nodevices_container').style.display = 'block';
+					throw 'No video devices found';
+				}
+				for (var i = 0; i !== deviceInfos.length; ++i) {
+					var deviceInfo = deviceInfos[i];
+					if (deviceInfo.kind === 'videoinput') {
+						var label = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
+						var device = {text: label, value: deviceInfo.deviceId};
+						
+						if (label.toLowerCase().indexOf('back') !== -1) {
+							devices.unshift(device);
+						} else {
+							devices.push(device);
+						}
+					} else {
+						console.log('Some other kind of source/device: ', deviceInfo);
+					}
+				}
+				document.getElementById('container').style.display = 'block';
+				activeDevice = 0;
+				start();
+			}
+  
+			function gotStream(stream) {
+				window.stream = stream; // make stream available to console
+				video.srcObject = stream;
+				return navigator.mediaDevices.enumerateDevices();	// refresh list in case labels have become available
+			}
+	    
+			function start() {
+				if (window.stream) {
+					window.stream.getTracks().forEach(function(track) {
+						track.stop();
+					});
+				}
+				var videoSource = devices[activeDevice].value;
+				var constraints = {
+					audio: undefined,
+					video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+				};
+				navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(onCameraError);
+			}
+			
+			function onCameraError(error) {
+				console.log('navigator.getUserMedia error: ', error);
+			}
+			
+			function drawToCanvas() {
+				var context = canvas.getContext("2d");
+				context.clearRect(0, 0, video.videoWidth, video.videoHeight);
+				context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+			}
+	
+			function startQrListener() {
+				qrcode.setCanvasElement(canvas);
+		
+				setInterval(function () {
+					try {
+						drawToCanvas();
+						var decodedValue = qrcode.decode();
+						window.opener.document.getElementById(cameraReturnElement).value = window.opener['convert_' + cameraReturnElement](decodedValue);
+						window.close();
+					} catch (err){
+						if (err !== "Couldn't find enough finder patterns") {
+							console.log(err);
+						}
+					}
+				}, 500);
+			}
+	
+			function initCamera() {
+				var isCameraSupported = location.protocol === 'https:' || location.hostname === 'localhost';
+				if (!isCameraSupported) {
+					document.getElementById('nocamera_container').style.display = 'block';
+			    	return;
+			    }
+				if (navigator.mediaDevices === undefined) {
+					document.getElementById('incompatible_container').style.display = 'block';
+			    	return;
+				}
+				
+				var isQr = getSessionFieldValue('APCAMERA_TYPE') === 'QR';
+				document.getElementById(isQr ? 'cameraSaveAuto' : 'cameraSaveButton').style.display = 'block';
+			    	
+		    	navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(onCameraError);
+			    
+			    if (isQr) {
+			    	startQrListener();
+			    }
+			}
+			
+			function cameraSave() {
+				drawToCanvas();
+				var fileInput = window.opener.document.getElementById(cameraReturnElement);
+				fileInput.setAttribute("fileFromCamera", canvas.toDataURL());
+				fileInput.setAttribute("uploaded", false);
+				fileInput.value = ""
+				window.opener.document.getElementById(cameraReturnElement + '_filename').innerHTML = '(From camera)';
+				window.close();
+			}
+		</script>  
+	</body>
+</html>

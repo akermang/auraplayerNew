@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta name="Modified" content="1525187706686"> 
+  <title>Login</title> 
+  <!-- META --> 
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <meta http-equiv="Pragma" content="no-cache"> 
+  <meta http-equiv="Expires" content="0"> 
+  <meta http-equiv="cache-control" content="no-cache,no-store, must-revalidate"> 
+  <meta http-equiv="last-modified" content="1525187706686"> 
+  <meta name="Created-By" content="manager"> 
+  <meta name="Creation-Timestamp" content="1525187706686"> 
+  <!-- CSS imports --> 
+  <link rel="stylesheet" href="../../res/jqueryMobile/jquery.mobile-1.4.5.min.css"> 
+  <link rel="stylesheet" href="../../res/jqueryMobile/jquery.mobile.theme-1.4.5.min.css"> 
+  <link rel="stylesheet" href="../../res/jqueryUi/jquery-ui-1.10.1.custom.min.css"> 
+  <link rel="stylesheet" href="../../res/nativeDroid/css/nativedroid2.css"> 
+  <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.min.css"> 
+  <link rel="stylesheet" href="../../res/auraplayer/android.css"> 
+  <link rel="stylesheet" href="https://akermang.github.io/Aurapalyer.css/main.css">
+  
+  
+  <!-- <link rel="stylesheet" href="../../res/auraplayer/hamburger.css">  -->
+  <!-- Javascript imports --> 
+  <script type="text/javascript" src="../../res/jquery/jquery.min.js"></script> 
+  <script type="text/javascript" src="../../res/jquery/jquery-dateFormat.min.js"></script> 
+  <script type="text/javascript" src="../../res/jqueryMobile/jquery.mobile-1.4.5.min.js"></script> 
+  <script type="text/javascript" src="../../res/jqueryUi/jquery-ui-1.10.1.custom.min.js"></script> 
+  <script type="text/javascript" src="../../res/nativeDroid/js/nativedroid2.js"></script> 
+  <script type="text/javascript" src="../../res/bootstrap/js/bootstrap.min.js"></script> 
+  <!-- AuraPlayer imports --> 
+  <script type="text/javascript" src="../../res/dist/auraplayer.js"></script> 
+  <script type="text/javascript" src="js/app.common.js"></script> 
+  <script type="text/javascript" src="json/handlerMap_1525187706686.json"></script> 
+  <script type="text/javascript" src="js/custom_js_1525187706686.js"></script> 
+ 
+ </head> 
+ <body dir="LTR" id="mainBody"> 
+  <script type="text/javascript">
+	var showStatusMessages = false;
+	var origRequestFields;
+	
+	$(function () {
+	    origRequestFields = $('#requestFields').clone();
+	    setDefaultValues();
+	    initData();
+	
+
+
+	    
+	    validateRequiredFields();
+	    
+	    $('input').on('input blur', function() {
+	    	setTimeout(validateRequiredFields, 200);
+		});
+	});
+	
+	var defaultValues = {};
+	defaultValues['MAIN_USERNAME_0'] = {
+        value: 'MIA',
+        type: 'text'
+    };
+
+	defaultValues['MAIN_PASSWORD_0'] = {
+        value: 'ORACLE',
+        type: 'password'
+    };
+
+	
+	
+	function showInputScreen() {
+	    setDefaultValues();
+	    refreshInputElements();
+	
+	    $("#requestPart").show();
+	    $("#responsePart").hide();
+	
+	    clearOutputFields();
+	}
+	
+	//handler for request sent
+	function sendRequestHandler() {
+	    document.getElementById("responsePart").style.display = 'none';
+	    spinner().start("Executing..", "a");
+	}
+	
+	//handler for response received
+	function receiveResponseHandler(response, serviceName, status, populateFields) {
+	    spinner().stop();
+	
+	    if (typeof(populateFields) === 'undefined' || populateFields) {
+	        //show output params
+	
+	        document.getElementById("responsePart").style.display = '';
+	        validateRequiredFields();
+	    }
+	}
+	
+    //init function
+    $(function () {
+        removeDuplicatedFields();
+    });
+</script> 
+  <div id="mainPage" data-role="page" data-theme="a" class="mainPage login"> 
+   <div data-role="header" id="header" data-theme="a" class="header-container ui-header-fixed"> 
+    <div class="container-fluid"> 
+     <div class="row"> 
+         <a id="titleRow-button" href="#leftpanel" class="ui-btn">
+             <h3><img class="action-img" src="../../images/ActionIcon.png" alt="nav"></h3>
+        </a> 
+      <div class="col-xs-1 pad-size-1"> 
+            <a href="javascript:navigate('Login.html')">
+                <img class="logo-img" src="../../www/img/logo4.png" width="120px">
+            </a> 
+      </div> 
+      <div class="col-xs-9" > 
+       <h3 id="pageTitle">Login</h3> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div data-role="main" class="ui-content main margin-top-6"> 
+    <div class="container-fluid"> 
+     <!-- <div class="row" style="padding: 12px 8px"> 
+      <div style="font-size: 20px; font-family: arial,serif;
+	                        color:#ffffff"></div> 
+     </div>  -->
+     <div> 
+      <div id="requestPart" name="requestPart"> 
+       <!-- <div class="row" id="requestFields" style="padding: 12px 8px"> 
+        <form style="width: 98%"> 
+        </form> 
+       </div>  -->
+       <div class="row" id="responseField"> 
+        <form id="responseForm"> 
+         <span class="responseField"  id="MAIN_USERNAME_0_container"> <label for="MAIN_USERNAME_0"> 
+           <nobr>
+            Name
+           </nobr> </label> <input id="MAIN_USERNAME_0" name="Name" type="text" value="MIA" class="output_value"> </span> 
+         <span class="responseField" id="MAIN_PASSWORD_0_container"> <label for="MAIN_PASSWORD_0"> 
+           <nobr>
+            Password
+           </nobr> </label> <input id="MAIN_PASSWORD_0" name="Password" type="password" value="ORACLE" class="output_value"> </span> 
+        </form> 
+       </div> 
+      </div> 
+      <div id="responsePart" name="responsePart"> 
+       <!-- <div id="spacerAbovePopups" style="height:30px"></div>  -->
+      </div> 
+      <button id="Login" class="clr-primary ui-btn-raised border-r-size-1 pad-size-1 ui-btn"> Login </button> 
+     </div> 
+    </div> 
+   </div> 
+   <!-- Info popup - single OK button --> 
+   <div data-role="popup" id="infoPopup" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;"> 
+    <div data-role="header" data-theme="a"> 
+     <h1 id="infoPopupTitle"></h1> 
+    </div> 
+    <div role="main" class="ui-content"> 
+     <p id="infoPopupMessage"></p> 
+     <span style="padding: 1px;"></span> 
+     <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" data-rel="back">OK</a> 
+    </div> 
+   </div> 
+   <!-- Confirm popup - OK, Cancel buttons --> 
+   <div data-role="popup" id="confirmPopup" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;"> 
+    <div data-role="header" data-theme="a"> 
+     <h1 id="confirmPopupTitle"></h1> 
+    </div> 
+    <div role="main" class="ui-content"> 
+     <p id="confirmPopupMessage"></p> 
+     <div style="padding: 10px;"></div> 
+     <a id="confirmPopupOk" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">OK</a> 
+     <a id="confirmPopupCancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a> 
+    </div> 
+   </div> 
+  </div>   
+ </body>
+</html>

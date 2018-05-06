@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta name="Modified" content="1525187707092"> 
+  <title>Customer Details</title> 
+  <!-- META --> 
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <meta http-equiv="Pragma" content="no-cache"> 
+  <meta http-equiv="Expires" content="0"> 
+  <meta http-equiv="cache-control" content="no-cache,no-store, must-revalidate"> 
+  <meta http-equiv="last-modified" content="1525187707092"> 
+  <meta name="Created-By" content="manager"> 
+  <meta name="Creation-Timestamp" content="1525187707092"> 
+  <!-- CSS imports --> 
+  <link rel="stylesheet" href="../../res/jqueryMobile/jquery.mobile-1.4.5.min.css"> 
+  <link rel="stylesheet" href="../../res/jqueryMobile/jquery.mobile.theme-1.4.5.min.css"> 
+  <link rel="stylesheet" href="../../res/jqueryUi/jquery-ui-1.10.1.custom.min.css"> 
+  <link rel="stylesheet" href="../../res/nativeDroid/css/nativedroid2.css"> 
+  <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.min.css"> 
+  <link rel="stylesheet" href="../../res/auraplayer/android.css"> 
+  <!-- <link rel="stylesheet" href="../../res/auraplayer/hamburger.css">  -->
+  <link rel="stylesheet" href="https://akermang.github.io/Aurapalyer.css/main.css">
+
+  <!-- Javascript imports --> 
+  <script type="text/javascript" src="../../res/jquery/jquery.min.js"></script> 
+  <script type="text/javascript" src="../../res/jquery/jquery-dateFormat.min.js"></script> 
+  <script type="text/javascript" src="../../res/jqueryMobile/jquery.mobile-1.4.5.min.js"></script> 
+  <script type="text/javascript" src="../../res/jqueryUi/jquery-ui-1.10.1.custom.min.js"></script> 
+  <script type="text/javascript" src="../../res/nativeDroid/js/nativedroid2.js"></script> 
+  <!-- <script type="text/javascript" src="../../res/bootstrap/js/bootstrap.min.js"></script> --> 
+  <!-- AuraPlayer imports --> 
+  <script type="text/javascript" src="../../res/dist/auraplayer.js"></script> 
+  <script type="text/javascript" src="js/app.common.js"></script> 
+  <script type="text/javascript" src="json/handlerMap_1525187707092.json"></script> 
+  <script type="text/javascript" src="js/custom_js_1525187707092.js"></script> 
+  
+ </head> 
+ <body dir="LTR" id="mainBody"> 
+  <script type="text/javascript">
+	var showStatusMessages = false;
+	var origRequestFields;
+	
+	$(function () {
+	    origRequestFields = $('#requestFields').clone();
+	    setDefaultValues();
+	    initData();
+	
+
+        prepareMobileLOV({
+            lovId: "S_CUSTOMER_ID_0_lov",
+            triggerId: "S_CUSTOMER_ID_0_lov_trigger",
+            elementId: "S_CUSTOMER_ID_0",
+            webService: "http://18.236.107.118:8080/ServiceManager/Macro/ExecMacro/mcs_getAllCustomers",
+            requestPreparer: "prepare_S_CUSTOMER_ID_0_lov_request",
+            itemPresenter: "S_CUSTOMER_ID_0_lov_item_presenter",
+            itemHandler: "S_CUSTOMER_ID_0_lov_item_handler"
+        });
+
+	    
+	    validateRequiredFields();
+	    
+	    $('input').on('input blur', function() {
+	    	setTimeout(validateRequiredFields, 200);
+		});
+	});
+	
+	var defaultValues = {};
+	defaultValues['S_CUSTOMER_STATE_0'] = {
+        value: convert_S_CUSTOMER_STATE_0('false'),
+        type: 'checkbox'
+    };
+
+	defaultValues['S_CUSTOMER_ZIP_CODE_0'] = {
+        value: convert_S_CUSTOMER_ZIP_CODE_0('0'),
+        type: 'date'
+    };
+
+	defaultValues['S_CUSTOMER_CREDIT_RATING_0'] = {
+        value: convert_S_CUSTOMER_CREDIT_RATING_0('no'),
+        type: 'slider'
+    };
+
+	defaultValues['S_CUSTOMER_COUNTRY_0'] = {
+        value: null,
+        type: 'text'
+    };
+
+	defaultValues['S_CUSTOMER_CITY_0'] = {
+        value: null,
+        type: 'text'
+    };
+
+	defaultValues['S_CUSTOMER_ADDRESS_0'] = {
+        value: null,
+        type: 'text'
+    };
+
+	defaultValues['S_CUSTOMER_NAME_0'] = {
+        value: null,
+        type: 'text'
+    };
+
+	defaultValues['S_CUSTOMER_ID_0'] = {
+        value: null,
+        type: 'lov'
+    };
+
+	defaultValues['S_CUSTOMER_PHONE_0'] = {
+        value: null,
+        type: 'phone'
+    };
+
+	defaultValues['S_CUSTOMER_COMMENTS_0'] = {
+        value: null,
+        type: 'text'
+    };
+
+	defaultValues['Map'] = {
+        value: convert_map(),
+        type: 'map'
+    };
+
+	
+	
+	function showInputScreen() {
+	    setDefaultValues();
+	    refreshInputElements();
+	
+	    $("#requestPart").show();
+	    $("#responsePart").hide();
+	
+	    clearOutputFields();
+	}
+	
+	//handler for request sent
+	function sendRequestHandler() {
+	    document.getElementById("responsePart").style.display = 'none';
+	    spinner().start("Executing..", "a");
+	}
+	
+	//handler for response received
+	function receiveResponseHandler(response, serviceName, status, populateFields) {
+	    spinner().stop();
+	
+	    if (typeof(populateFields) === 'undefined' || populateFields) {
+	        //show output params
+	
+	        document.getElementById("responsePart").style.display = '';
+	        validateRequiredFields();
+	    }
+	}
+	
+    //init function
+    $(function () {
+        removeDuplicatedFields();
+    });
+</script> 
+  <div id="mainPage" data-role="page" data-theme="a" class="main-page"> 
+    <div data-role="header" id="header" data-theme="a" class="header-container ui-header-fixed">
+        <div class="container-fluid"> 
+         <div class="row"> 
+            <a id="titleRow-button" href="#leftpanel" class="ui-btn">
+                <h3 class="text-white hamburger">
+                    <img class="action-img" src="../../images/ActionIcon.png" alt="nav"> 
+                </h3>
+            </a> 
+          <div class="col-xs-1 pad-size-1" > 
+           <a href="javascript:navigate('Login.html')"><img class="logo-img" src="../../www/img/logo4.png" width="120px"></a> 
+          </div> 
+          <div class="col-xs-9 pad-size-1"> 
+           <h3 id="pageTitle" class="text-center">Customer Details</h3> 
+          </div> 
+         </div> 
+        </div> 
+       </div> 
+   <div data-role="main" class="ui-content max-w-1400 cont-center margin-top-6 bordered-full"> 
+        <div class="container-fluid"> 
+            <!-- <div class="row" style="padding: 12px 8px"> 
+            <div style="font-size: 20px; font-family: arial,serif;
+                                    color:#ffffff"></div>  
+            </div>  -->
+            <div> 
+                <div id="requestPart" name="requestPart "> 
+                    <button id="Orders" class="ui-btn clr-primary ui-btn-raised border-r-size-1 max-w-400 cont-center"> Orders </button> 
+                    <div class="row" id="requestFields" style="padding: 12px 8px"> 
+                        <form style="width: 98%"> 
+                        </form> 
+                    </div> 
+                    <div class="row" id="responseField" style="padding: 12px 8px"> 
+                        <form id="responseForm" style="width: 100%"> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_NAME_0_container"> <label for="S_CUSTOMER_NAME_0" style="color:#696969"> 
+                        <nobr>
+                            Name
+                        </nobr> </label> <input id="S_CUSTOMER_NAME_0" name="Name" type="text" value="" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_ID_0_container"> <label for="S_CUSTOMER_ID_0" style="color:#696969"> 
+                        <nobr>
+                            Customer
+                        </nobr> </label> <span style="display:inline-block; width:88%"> <input id="S_CUSTOMER_ID_0" name="Customer" type="text" value=""> </span> <a id="S_CUSTOMER_ID_0_lov_trigger" name="Customer_lov_trigger" data-rel="popup" data-transition="slideup" data-theme="a" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-refresh ui-btn-icon-notext" style="width: 10% !important; float:right; margin-right: 0"> </a> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_PHONE_0_container"> <label for="S_CUSTOMER_PHONE_0" style="color:#696969"> 
+                        <nobr>
+                            Phone
+                        </nobr> </label> 
+                        <div class="read-only output_value" tag="input"> 
+                        <a id="S_CUSTOMER_PHONE_0" name="Phone" href="tel:"></a> 
+                        </div> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_COUNTRY_0_container"> <label for="S_CUSTOMER_COUNTRY_0" style="color:#696969"> 
+                        <nobr>
+                            Country
+                        </nobr> </label> <input id="S_CUSTOMER_COUNTRY_0" name="Country" type="text" value="" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_ADDRESS_0_container"> <label for="S_CUSTOMER_ADDRESS_0" style="color:#696969"> 
+                        <nobr>
+                            Address
+                        </nobr> </label> <input id="S_CUSTOMER_ADDRESS_0" name="Address" type="text" value="" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_CITY_0_container"> <label for="S_CUSTOMER_CITY_0" style="color:#696969"> 
+                        <nobr>
+                            City
+                        </nobr> </label> <input id="S_CUSTOMER_CITY_0" name="City" type="text" value="" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_ZIP_CODE_0_container"> <label for="S_CUSTOMER_ZIP_CODE_0" style="color:#696969"> 
+                        <nobr>
+                            Zip
+                        </nobr> </label> <input type="text" id="S_CUSTOMER_ZIP_CODE_0" name="Zip" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_COMMENTS_0_container"> <label for="S_CUSTOMER_COMMENTS_0" style="color:#696969"> 
+                        <nobr>
+                            Comments
+                        </nobr> </label> <input id="S_CUSTOMER_COMMENTS_0" name="Comments" type="text" value="" class="output_value"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_STATE_0_container"> <label for="S_CUSTOMER_STATE_0" style="color:#696969"> 
+                        <nobr>
+                            State
+                        </nobr> </label> <input id="S_CUSTOMER_STATE_0" name="State" type="checkbox" value="false" class="output_value" style="display: none"> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="S_CUSTOMER_CREDIT_RATING_0_container"> <label for="S_CUSTOMER_CREDIT_RATING_0" style="color:#696969"> 
+                        <nobr>
+                            Rating
+                        </nobr> </label> <select id="S_CUSTOMER_CREDIT_RATING_0" name="Rating" data-role="flipswitch" class="output_value"> <option value="no">no</option> <option value="yes">yes</option> </select> </span> 
+                        <span class="responseField" style="display: inline-block; width: 98.0%" id="Map_container"> <label for="Map" style="color:#696969"> 
+                        <nobr>
+                            My Map
+                        </nobr> </label> <span style="display:inline-block; width:78%"> 
+                        <div id="map_address" class="read-only output_value" tag="input">
+                            &nbsp;
+                        </div> 
+                        <!--<input id="map_address_input" type="text" value="" class="output_value">--> </span> <a id="map_navigate_button" title="Navigate To" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-navigation ui-btn-icon-notext" style="width: 10% !important; float:right; margin-right: 0"> </a> <a id="map_locate_button" title="Refresh &amp; Locate" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-location ui-btn-icon-notext" style="width: 10% !important; float:right; margin-right: 0"> </a> 
+                        <div id="map" class="map-container"></div> <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOrtud7nOOaSbrTdDpqY784fQN3IIRtG8&amp;callback=initMap&amp;language=en"></script> </span> 
+                        </form> 
+                    </div> 
+                </div> 
+                <div id="responsePart" name="responsePart"> 
+                    <div id="spacerAbovePopups" style="height:30px"></div> 
+                </div> 
+            </div> 
+        </div> 
+   </div> 
+   <div id="leftpanel" class="leftpanel" data-role="panel" data-display="overlay" data-position-fixed="true"> 
+        <span id="hamburger-title">Menu</span> 
+        <img class="logo-img" src="../../www/img/logo4.png">
+        <a href="#" id="hamburger-close" class="ui-btn ui-icon-carat-l ui-btn-icon-left" data-rel="close"></a> 
+        <ul data-role="listview"> 
+            <li data-icon="ui-icon-blank"><a href="Login.html" data-ajax="false">Login</a></li> 
+            <li data-icon="ui-icon-blank"><a href="CustomerList.html" data-ajax="false">Customer List</a></li> 
+            <li data-icon="ui-icon-blank"><a href="CustoemrDetails.html" data-ajax="false">Customer Details</a></li> 
+            <li data-icon="ui-icon-blank"><a href="Orders.html" data-ajax="false">Orders</a></li> 
+        </ul> 
+   </div> 
+   <!-- Info popup - single OK button --> 
+   <div data-role="popup" id="infoPopup" class="infoPopup" data-overlay-theme="a" data-theme="a" data-dismissible="false"> 
+        <div data-role="header" data-theme="a"> 
+         <h1 id="infoPopupTitle"></h1> 
+        </div> 
+        <div role="main" class="ui-content"> 
+         <p id="infoPopupMessage"></p> 
+         <span ></span> 
+         <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" data-rel="back">OK</a> 
+        </div> 
+       </div> 
+       <!-- Confirm popup - OK, Cancel buttons --> 
+       <div data-role="popup" id="confirmPopup" class="confirmPopup" data-overlay-theme="a" data-theme="a" data-dismissible="false"> 
+        <div data-role="header" data-theme="a"> 
+         <h1 id="confirmPopupTitle"></h1> 
+        </div> 
+        <div role="main" class="ui-content"> 
+         <p id="confirmPopupMessage"></p> 
+         <div class="pad-10"></div> 
+         <a id="confirmPopupOk" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">OK</a> 
+         <a id="confirmPopupCancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a> 
+    </div> 
+   </div> 
+  </div>   
+ </body>
+</html>

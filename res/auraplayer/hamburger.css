@@ -1,0 +1,41 @@
+#leftpanel {
+	background-color: #f9f9f9;
+	opacity: 0.9;
+	filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+
+#leftpanel ul li {
+	background: aqua;
+	
+}
+
+#titleRow-button {
+	background-color: transparent;
+	border-style: none;
+	text-shadow: none;
+	padding-top: 15px;
+	color: #f7f7f7!important;
+}
+
+#hamburger-title {
+	font-size: 30px;
+	font-weight: 550;
+	padding-top: 15px;
+}
+
+#hamburger-close {
+	background-color: transparent;
+	border-style: none;
+	text-shadow: none;
+	padding-top: 32px;
+	float: right;
+	padding-bottom: 15px;
+}
+
+#hamburger-close:hover {
+	background-color: rgba(0, 0, 0, 0.04);
+}
+
+#hamburger-close:after {
+	background-color: #8d8d8e;
+}

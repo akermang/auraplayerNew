@@ -21,7 +21,9 @@
   <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.min.css"> 
   <link rel="stylesheet" href="../../res/auraplayer/android.css"> 
   <!-- <link rel="stylesheet" href="../../res/auraplayer/hamburger.css">  -->
-  <link rel="stylesheet" href="https://akermang.github.io/Aurapalyer.css/main.css">
+  <!-- <link rel="stylesheet" href="https://akermang.github.io/Aurapalyer.css/main.css"> -->
+  <link rel="stylesheet" href="../../../Aurapalyer.css/main.css">
+  
 
   <!-- Javascript imports --> 
   <script type="text/javascript" src="../../res/jquery/jquery.min.js"></script> 
@@ -35,7 +37,6 @@
   <script type="text/javascript" src="js/app.common.js"></script> 
   <script type="text/javascript" src="json/handlerMap_1525187707404.json"></script> 
   <script type="text/javascript" src="js/custom_js_1525187707404.js"></script> 
- 
  </head> 
  <body dir="LTR" id="mainBody"> 
   <script type="text/javascript">
@@ -111,14 +112,14 @@
          </div> 
         </div> 
     </div> 
-   <div data-role="main" class="ui-content"> 
+   <div data-role="main" class="ui-content margin-top-6"> 
     <div class="container-fluid"> 
-     <div class="row" style="padding: 12px 8px"> 
+     <!-- <div class="row" style="padding: 12px 8px"> 
       <div style="font-size: 20px; font-family: arial,serif;
 	                        color:#ffffff"></div> 
-     </div> 
+     </div>  -->
      <div> 
-      <div id="requestPart" name="requestPart"> 
+      <!-- <div id="requestPart" name="requestPart"> 
        <div class="row" id="requestFields" style="padding: 12px 8px"> 
         <form style="width: 98%"> 
         </form> 
@@ -127,26 +128,34 @@
         <form id="responseForm" style="width: 100%"> 
         </form> 
        </div> 
-      </div> 
-      <div id="responsePart" name="responsePart"> 
-       <table id="tableOutput" class="responstable table table-bordered table-striped table-hover table-responsive"> 
-        <thead id="tableOutputHead"> 
-         <tr> 
-          <th id="S_ORD_TOTAL_0" name="Total" display-format="%s"> Total </th> 
-          <th id="S_ORD_SALES_REP_ID_0" name="Sales Rep" display-format="%s"> Sales Rep </th> 
-          <th id="S_ORD_ID_0" name="orderId" display-format="%s"> orderId </th> 
-          <th id="S_ORD_DATE_SHIPPED_0" name="Shipped" display-format="%s"> Shipped </th> 
-          <th id="S_ORD_ORDER_FILLED_0" name="Filled" display-format="%s"> Filled </th> 
-          <th id="S_ORD_DATE_ORDERED_0" name="Ordered" display-format="%s"> Ordered </th> 
-          <th id="S_ORD_PAYMENT_TYPE_0" name="Pay Type" display-format="%s"> Pay Type </th> 
-         </tr> 
-        </thead> 
-        <tbody id="tableOutputBody"> 
-         <tr></tr> 
-        </tbody> 
-       </table> 
-       <div id="spacerAbovePopups" style="height:30px"></div> 
-      </div> 
+      </div>  -->
+      <div id="responsePart" name="responsePart">
+            <div class="scroll-control-buttons">
+                <span id="go-left"> < </span>
+                <span id="go-right">></span>
+            </div>
+          <div class="table-wrapper">
+                <table id="tableOutput" class="responstable table table-bordered table-striped table-hover table-responsive"> 
+                    <thead id="tableOutputHead"> 
+                        <tr> 
+                          <th id="S_ORD_TOTAL_0" name="Total" display-format="%s"> Total </th> 
+                          <th id="S_ORD_SALES_REP_ID_0" name="Sales Rep" display-format="%s"> Sales Rep </th> 
+                          <th id="S_ORD_ID_0" name="orderId" display-format="%s"> orderId </th> 
+                          <th id="S_ORD_DATE_SHIPPED_0" name="Shipped" display-format="%s"> Shipped </th> 
+                          <th id="S_ORD_ORDER_FILLED_0" name="Filled" display-format="%s"> Filled </th> 
+                          <th id="S_ORD_DATE_ORDERED_0" name="Ordered" display-format="%s"> Ordered </th> 
+                          <th id="S_ORD_PAYMENT_TYPE_0" name="Pay Type" display-format="%s"> Pay Type </th> 
+                        </tr> 
+                    </thead> 
+                    <tbody id="tableOutputBody"> 
+                        <tr></tr> 
+                    </tbody> 
+                </table> 
+                <div id="spacerAbovePopups" style="height:30px"></div> 
+            </div> 
+
+          </div>
+       
      </div> 
     </div> 
    </div> 
@@ -184,6 +193,25 @@
          <a id="confirmPopupCancel" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a> 
     </div> 
    </div> 
-  </div>   
+  </div> 
+  <script>
+        // table auto scroll buttons**************
+        $("#go-right").click(function () {
+            $("#tableOutput").animate({
+                scrollLeft: "+=300"
+            }, 500, function () {
+                // Animation complete.
+            });
+        });
+
+
+        $("#go-left").click(function () {
+            $("#tableOutput").animate({
+                scrollLeft: "-=300"
+            }, 500, function () {
+                // Animation complete.
+            });
+        });
+    </script>  
  </body>
 </html>
